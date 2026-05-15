@@ -9,6 +9,7 @@ export default function RootLayout({
     <html lang="ja">
       <body style={{ margin: 0 }}>
         <div className="appRoot">
+          
           {/* ✅ 上メニュー */}
           <header className="topNav">
             <div className="navInner">
@@ -65,6 +66,7 @@ export default function RootLayout({
             padding: 14px 18px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
           }
 
           .brand {
@@ -74,6 +76,7 @@ export default function RootLayout({
           .navLinks {
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
           }
 
           .navLinks a {
