@@ -45,11 +45,18 @@ export default async function Home() {
             {data?.title || "タイトル未設定"}
           </h1>
 
-          <p style={{ lineHeight: "1.8", marginTop: "12px" }}>
+          {/* ✅ ここを修正（改行対応） */}
+          <p
+            style={{
+              lineHeight: "1.8",
+              marginTop: "12px",
+              whiteSpace: "pre-wrap", // ✅ これがポイント
+            }}
+          >
             {data?.description || "説明文がまだ入力されていません"}
           </p>
 
-          {/* デバッグ表示（データが0件のときだけ見える） */}
+          {/* デバッグ表示 */}
           {!data && (
             <p style={{ color: "#b00", marginTop: "14px" }}>
               lessonTop のデータが見つかりませんでした。Sanity Studioで
@@ -61,4 +68,3 @@ export default async function Home() {
     </main>
   );
 }
-``
