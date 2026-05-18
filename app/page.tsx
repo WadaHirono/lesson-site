@@ -45,16 +45,36 @@ export default async function Home() {
             {data?.title || "タイトル未設定"}
           </h1>
 
-          {/* ✅ ここを修正（改行対応） */}
+          {/* ✅ 説明文（改行対応） */}
           <p
             style={{
               lineHeight: "1.8",
               marginTop: "12px",
-              whiteSpace: "pre-wrap", // ✅ これがポイント
+              whiteSpace: "pre-wrap",
             }}
           >
             {data?.description || "説明文がまだ入力されていません"}
           </p>
+
+          {/* ✅ 演奏サイトボタン（追加） */}
+          <div style={{ marginTop: "20px" }}>
+            <a
+              href="https://あなたの演奏サイトURL"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-block",
+                padding: "12px 20px",
+                background: "#1b2a41",
+                color: "#fff",
+                borderRadius: "8px",
+                textDecoration: "none",
+                fontSize: "14px",
+              }}
+            >
+              🎵 演奏活動はこちら
+            </a>
+          </div>
 
           {/* デバッグ表示 */}
           {!data && (
