@@ -59,7 +59,7 @@ export default async function Home() {
           {/* ✅ 演奏サイトボタン（追加） */}
           <div style={{ marginTop: "20px" }}>
             <a
-              href="https://あなたの演奏サイトURL"
+              href="https://www.wadahirono-baritone.net/"
               target="_blank"
               rel="noopener noreferrer"
               style={{
