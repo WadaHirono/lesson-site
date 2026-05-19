@@ -4,28 +4,33 @@ import { urlFor } from "@/lib/sanityImage";
 const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
-      // value.asset がある前提（Sanityの画像ブロック）
-      const src = urlFor(value).width(900).quality(80).url();
-      return (
-        <img
-          src={src}
-          alt={value?.alt || ""}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "12px",
-            margin: "18px 0",
-          }}
-        />
-      );
+      try {
+        if (!value?.asset?._ref) return null;
+        const src = urlFor(value).width(1200).quality(80).auto("format").url();
+        if (!src) return null;
+
+        return (
+          <img
+            src={src}
+            alt={value?.alt ?? ""}
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: "12px",
+              margin: "16px 0",
+            }}
+            loading="lazy"
+          />
+        );
+      } catch {
+        return null;
+      }
     },
 
-    // ✅ 任意：youtubeブロックがある場合だけ表示（schemaでyoutube typeを作った場合）
     youtube: ({ value }) => {
       const url: string | undefined = value?.url;
       if (!url) return null;
 
-      // youtube URL から id を雑に抽出（短縮URL/通常URLどちらも対応）
       const match =
         url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/) ||
         url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
@@ -44,9 +49,7 @@ const components: PortableTextComponents = {
                 width: "100%",
                 height: "100%",
                 border: 0,
-                borderRadius: "12px",
               }}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           </div>
@@ -56,15 +59,32 @@ const components: PortableTextComponents = {
   },
 
   block: {
-    h2: ({ children }) => (
-      <h2 style={{ marginTop: "28px", marginBottom: "10px" }}>{children}</h2>
-    ),
     normal: ({ children }) => (
       <p style={{ lineHeight: "1.9", margin: "10px 0" }}>{children}</p>
+    ),
+    h2: ({ children }) => (
+      <h2 style={{ marginTop: "26px", marginBottom: "10px" }}>{children}</h2>
     ),
   },
 };
 
 export default function PortableContent({ value }: { value: any }) {
-  return <PortableText value={value} components={components} />;
+  if (!value) return null;
+
+  // ✅ 本文が「文字列」の場合でも落ちない（text型ブログ用）
+  if (typeof value === "string") {
+    return (
+      <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.9", margin: "10px 0" }}>
+        {value}
+      </p>
+    );
+  }
+
+  // ✅ 本文が「PortableText配列」の場合
+  if (Array.isArray(value)) {
+    return <PortableText value={value} components={components} />;
+  }
+
+  // ✅ 想定外の型でも落ちない
+  return null;
 }

@@ -7,8 +7,10 @@ type Params = { slug: string };
 
 export default async function BlogDetailPage({ params }: { params: Params }) {
   const post = await client.fetch(
-    `*[_type == "blog" && site == "lesson" && slug.current == $slug][0]{
-      title, publishedAt, body
+    `*[_type == "lessonBlog" && slug.current == $slug][0]{
+      title,
+      "publishedAt": coalesce(publishedAt, date),
+      body
     }`,
     { slug: params.slug }
   );
@@ -24,6 +26,7 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
   return (
     <main style={{ padding: "40px", maxWidth: "900px", margin: "0 auto" }}>
       <h1 style={{ marginBottom: "8px" }}>{post.title}</h1>
+
       {post.publishedAt && (
         <p style={{ color: "#666", marginTop: 0 }}>
           {new Date(post.publishedAt).toLocaleDateString("ja-JP")}

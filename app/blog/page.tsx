@@ -12,8 +12,11 @@ type Post = {
 
 export default async function BlogListPage() {
   const posts: Post[] = await client.fetch(
-    `*[_type == "blog" && site == "lesson"] | order(publishedAt desc){
-      _id, title, slug, publishedAt
+    `*[_type == "lessonBlog"] | order(coalesce(publishedAt, date) desc){
+      _id,
+      title,
+      slug,
+      "publishedAt": coalesce(publishedAt, date)
     }`
   );
 
