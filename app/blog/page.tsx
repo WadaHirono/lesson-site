@@ -1,4 +1,5 @@
-import Link from "next/link";import Linkimport { client } from "@/lib/sanity";
+import Link from "next/link";
+import { client } from "@/lib/sanity";
 
 export const dynamic = "force-dynamic";
 
@@ -40,8 +41,13 @@ export default async function BlogListPage() {
                   background: "rgba(255,255,255,0.7)",
                 }}
               >
-                <Link href={`/blog/${p.slug.current}`} style={{ textDecoration: "none" }}>
-                  <div style={{ fontWeight: 700, color: "#1b2a41" }}>{p.title}</div>
+                <Link
+                  href={`/blog/${p.slug.current}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div style={{ fontWeight: 700, color: "#1b2a41" }}>
+                    {p.title}
+                  </div>
 
                   {p.publishedAt && (
                     <div style={{ color: "#666", fontSize: "13px", marginTop: "6px" }}>
