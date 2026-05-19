@@ -5,7 +5,6 @@ const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       try {
-        // ✅ 画像ブロックの最低条件（これがないと builder が落ちがち）
         if (!value?.asset?._ref) return null;
 
         const src = urlFor(value)
@@ -20,13 +19,13 @@ const components: PortableTextComponents = {
           <img
             src={src}
             alt={value?.alt ?? ""}
-            loading="lazy"
             style={{
               width: "100%",
               height: "auto",
               borderRadius: "12px",
               margin: "16px 0",
             }}
+            loading="lazy"
           />
         );
       } catch {
@@ -34,7 +33,6 @@ const components: PortableTextComponents = {
       }
     },
 
-    // ✅ YouTubeブロックが混ざっても落ちない（schemaでyoutubeを作ってる場合だけ出る）
     youtube: ({ value }) => {
       const url: string | undefined = value?.url;
       if (!url) return null;
@@ -79,7 +77,7 @@ const components: PortableTextComponents = {
 export default function PortableContent({ value }: { value: any }) {
   if (!value) return null;
 
-  // ✅ 本文が text(string) の場合でも落ちない
+  // ✅ 本文が string（text型）でも落ちない
   if (typeof value === "string") {
     return (
       <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.9", margin: "10px 0" }}>
@@ -88,11 +86,10 @@ export default function PortableContent({ value }: { value: any }) {
     );
   }
 
-  // ✅ PortableText（配列）
+  // ✅ PortableText配列
   if (Array.isArray(value)) {
     return <PortableText value={value} components={components} />;
   }
 
-  // ✅ 想定外は捨てる（落ちない）
   return null;
 }
