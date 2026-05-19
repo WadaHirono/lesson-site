@@ -17,6 +17,10 @@ export default function DrawerNav() {
       { href: "/lesson", label: "レッスン内容" },
       { href: "/profile", label: "講師プロフィール" },
       { href: "/price", label: "レッスン料金" },
+
+      // ✅ ✅ ✅ ここ追加
+      { href: "/blog", label: "ブログ" },
+
       { href: "/contact", label: "レッスン問い合わせ" },
     ],
     []
@@ -46,7 +50,7 @@ export default function DrawerNav() {
 
   return (
     <>
-      {/* 左上 ≡ ボタン（常に上に乗る） */}
+      {/* 左上 ≡ ボタン */}
       <button
         type="button"
         aria-label="メニューを開く"
@@ -63,7 +67,7 @@ export default function DrawerNav() {
         onClick={() => setOpen(false)}
       />
 
-      {/* スライドするメニュー本体 */}
+      {/* メニュー */}
       <aside className={`drawer ${open ? "isOpen" : ""}`} aria-hidden={!open}>
         <div className="drawerHeader">
           <div className="drawerTitle">Wada Vocal Lesson</div>
