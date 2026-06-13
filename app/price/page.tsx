@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic"; // ✅ これ追加
+export const revalidate = 60; // ✅ あってもOK
+
 import { client } from "@/lib/sanity";
 
 type LessonPrice = {
@@ -7,13 +10,19 @@ type LessonPrice = {
 };
 
 export default async function PricePage() {
-  const prices: LessonPrice[] = await client.fetch(
-    `*[_type == "lessonPrice"] | order(menu asc){ _id, menu, price }`
-  );
+  const prices: LessonPrice[] = await client.fetch(`
+    *[_type == "lessonPrice"] | order(menu asc){
+      _id,
+      menu,
+      price
+    }
+  `);
 
   return (
     <main style={{ padding: "40px" }}>
-      <h1 style={{ fontSize: 28, marginBottom: 16 }}>レッスン料金</h1>
+      <h1 style={{ fontSize: 28, marginBottom: 16 }}>
+        レッスン料金
+      </h1>
 
       {prices.length === 0 ? (
         <p style={{ color: "#666" }}>
@@ -31,7 +40,9 @@ export default async function PricePage() {
                 background: "#fff",
               }}
             >
-              <div style={{ fontWeight: 700 }}>{p.menu || "（メニュー未入力）"}</div>
+              <div style={{ fontWeight: 700 }}>
+                {p.menu || "（メニュー未入力）"}
+              </div>
               <div style={{ marginTop: 4, color: "#666" }}>
                 {p.price || "（料金未入力）"}
               </div>
