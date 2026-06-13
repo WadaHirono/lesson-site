@@ -11,20 +11,18 @@ export default function DrawerNav() {
   const [open, setOpen] = useState(false);
 
   const navItems: NavItem[] = useMemo(
-    () => [
-      { href: "/", label: "TOP" },
-      { href: "/concept", label: "レッスンコンセプト" },
-      { href: "/lesson", label: "レッスン内容" },
-      { href: "/profile", label: "講師プロフィール" },
-      { href: "/price", label: "レッスン料金" },
+  () => [
+    { href: "/", label: "TOP" },
+    { href: "/lesson-concept", label: "レッスンコンセプト" },
+    { href: "/lesson-content", label: "レッスン内容" },
+    { href: "/lesson-profile", label: "講師プロフィール" },
+    { href: "/lesson-price", label: "レッスン料金" },
+    { href: "/blog", label: "ブログ" },
+    { href: "/contact", label: "レッスン問い合わせ" },
+  ],
+  []
+);
 
-      // ✅ ✅ ✅ ここ追加
-      { href: "/blog", label: "ブログ" },
-
-      { href: "/contact", label: "レッスン問い合わせ" },
-    ],
-    []
-  );
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
