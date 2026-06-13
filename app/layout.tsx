@@ -2,7 +2,6 @@ import "./globals.css";
 import DrawerNav from "@/components/DrawerNav";
 import type { Metadata } from "next";
 
-// ✅ SEO追加（最重要）
 export const metadata: Metadata = {
   metadataBase: new URL("https://lesson.wadahirono-baritone.net"),
 
@@ -50,10 +49,7 @@ export default function RootLayout({
     <html lang="ja">
       <body style={{ margin: 0 }}>
         <div className="appRoot">
-          {/* ナビ */}
           <DrawerNav />
-
-          {/* ページ本体 */}
           <main className="pageContent">{children}</main>
         </div>
 
@@ -84,18 +80,113 @@ export default function RootLayout({
             padding: 72px 18px 60px;
           }
 
+          /* ✅ ハンバーガーボタン */
           .hamburgerBtn{
             position: fixed;
             top: 14px;
             left: 14px;
-            z-index: 30;
+            z-index: 40;
             width: 44px;
             height: 44px;
             border-radius: 14px;
-            background: rgba(255,255,255,0.75);
+            border: 1px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.85);
+            cursor: pointer;
+            font-size: 22px;
           }
 
-          /* ✅ スマホ改善（少し追加） */
+          /* ✅ オーバーレイ */
+          .drawerOverlay{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+            z-index: 30;
+          }
+
+          .drawerOverlay.isOpen{
+            opacity: 1;
+            pointer-events: auto;
+          }
+
+          /* ✅ ドロワー本体 */
+          .drawer{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: min(300px, 85vw);
+            background: #fff;
+            transform: translateX(-100%);
+            transition: 0.25s ease;
+            z-index: 35;
+            padding: 16px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+          }
+
+          .drawer.isOpen{
+            transform: translateX(0);
+          }
+
+          .drawerHeader{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+          }
+
+          .drawerTitle{
+            font-weight: bold;
+            color: #1b2a41;
+          }
+
+          .closeBtn{
+            background: #eee;
+            border: none;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+          }
+
+          .drawerNav{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .drawerLink{
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            color: #1b2a41;
+            text-decoration: none;
+          }
+
+          .drawerLink:hover{
+            background: #f0f4fa;
+          }
+
+          .drawerLink.active{
+            background: #e4efff;
+            font-weight: bold;
+          }
+
+          .activeBar{
+            width: 5px;
+            height: 16px;
+            margin-right: 8px;
+            background: transparent;
+          }
+
+          .drawerLink.active .activeBar{
+            background: #1b2a41;
+          }
+
+          /* ✅ スマホ */
           @media (max-width: 768px){
             .pageContent{
               padding: 64px 14px 40px;
