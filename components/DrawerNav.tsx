@@ -10,26 +10,26 @@ export default function DrawerNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // ✅ 実際のフォルダ構成に合わせる（重要）
   const navItems: NavItem[] = useMemo(
-  () => [
-    { href: "/", label: "TOP" },
-    { href: "/lesson-concept", label: "レッスンコンセプト" },
-    { href: "/lesson-content", label: "レッスン内容" },
-    { href: "/lesson-profile", label: "講師プロフィール" },
-    { href: "/lesson-price", label: "レッスン料金" },
-    { href: "/blog", label: "ブログ" },
-    { href: "/contact", label: "レッスン問い合わせ" },
-  ],
-  []
-);
-
+    () => [
+      { href: "/", label: "TOP" },
+      { href: "/concept", label: "レッスンコンセプト" },
+      { href: "/lesson", label: "レッスン内容" },
+      { href: "/profile", label: "講師プロフィール" },
+      { href: "/price", label: "レッスン料金" },
+      { href: "/blog", label: "ブログ" },
+      { href: "/contact", label: "レッスン問い合わせ" },
+    ],
+    []
+  );
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  // Escで閉じる
+  // ✅ Escキーで閉じる
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
@@ -38,7 +38,7 @@ export default function DrawerNav() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // 開いてる間スクロール禁止
+  // ✅ スクロールロック
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -48,7 +48,7 @@ export default function DrawerNav() {
 
   return (
     <>
-      {/* 左上 ≡ ボタン */}
+      {/* ✅ ハンバーガー */}
       <button
         type="button"
         aria-label="メニューを開く"
@@ -59,19 +59,23 @@ export default function DrawerNav() {
         ≡
       </button>
 
-      {/* 背景オーバーレイ */}
+      {/* ✅ 背景 */}
       <div
         className={`drawerOverlay ${open ? "isOpen" : ""}`}
         onClick={() => setOpen(false)}
       />
 
-      {/* メニュー */}
-      <aside className={`drawer ${open ? "isOpen" : ""}`} aria-hidden={!open}>
+      {/* ✅ メニュー本体 */}
+      <aside
+        className={`drawer ${open ? "isOpen" : ""}`}
+        aria-hidden={!open}
+      >
         <div className="drawerHeader">
           <div className="drawerTitle">Wada Vocal Lesson</div>
+
           <button
             type="button"
-            aria-label="メニューを閉じる"
+            aria-label="閉じる"
             onClick={() => setOpen(false)}
             className="closeBtn"
           >
@@ -84,8 +88,8 @@ export default function DrawerNav() {
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setOpen(false)}
               className={`drawerLink ${isActive(item.href) ? "active" : ""}`}
+              onClick={() => setOpen(false)} // ✅ 確実に閉じる
             >
               <span className="activeBar" />
               <span className="label">{item.label}</span>
