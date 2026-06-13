@@ -4,13 +4,12 @@ import { client } from "@/lib/sanity";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://lesson.wadahirono-baritone.net";
 
-  // ✅ 固定ページ
   const staticPages = [
     "",
-    "/lesson-concept",
-    "/lesson-content",
-    "/lesson-price",
-    "/lesson-profile",
+    "/concept",
+    "/lesson",
+    "/profile",
+    "/price",
     "/blog",
     "/contact",
   ].map((path) => ({
@@ -18,8 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  // ✅ ブログページ取得
-  const posts = await client.fetch(`
+  const blogPosts = await client.fetch(`
     *[_type == "lessonBlog"]{
       slug,
       publishedAt,
@@ -27,11 +25,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   `);
 
-  const blogPages = posts
-    .filter((p: any) => p?.slug?.current)
-    .map((p: any) => ({
-      url: `${baseUrl}/blog/${p.slug.current}`,
-      lastModified: new Date(p.publishedAt || p.date || Date.now()),
+  const blogPages = blogPosts
+    .filter((post: any) => post?.slug?.current)
+    .map((post: any) => ({
+      url: `${baseUrl}/blog/${post.slug.current}`,
+      lastModified: new Date(post.publishedAt || post.date || Date.now()),
     }));
 
   return [...staticPages, ...blogPages];
